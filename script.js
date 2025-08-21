@@ -130,12 +130,16 @@ async function loadIndividualWorkData() {
                 };
                 
                 // 처음 로드된 업무내용 저장 (충돌 감지용)
-                originalWorkContent = firstData.업무내용 || '';
+                // 단, 이미 사용자가 입력을 시작한 경우에는 업데이트하지 않음
+                if (contentTextarea.value === '' || contentTextarea.value === firstData.업무내용) {
+                    originalWorkContent = firstData.업무내용 || '';
+                }
             } else {
                 // 데이터가 없으면 빈칸으로 설정
                 contentTextarea.value = '';
                 contentTextarea.dataset.existingId = '';
                 originalData = null;
+                // 새로운 날짜로 변경되어 데이터가 없는 경우에만 초기화
                 originalWorkContent = '';
             }
     
@@ -242,6 +246,10 @@ async function submitData() {
             result = data;
             console.log('데이터 입력 성공:', result);
         }
+        
+        // 성공적인 저장 후 원본 업무내용을 현재 입력한 내용으로 업데이트 (충돌 방지용)
+        originalWorkContent = workContent;
+        console.log('저장 후 originalWorkContent 업데이트:', originalWorkContent);
         
         // 입력 폼 초기화
         clearForm();
@@ -377,8 +385,7 @@ function clearForm() {
     contentTextarea.dataset.existingId = '';
     // 원본 데이터 초기화
     originalData = null;
-    // 원본 업무내용 초기화
-    originalWorkContent = '';
+    // 주의: originalWorkContent는 여기서 초기화하지 않음 (충돌 방지용으로 계속 유지)
     // textarea 높이 초기화
     contentTextarea.style.height = 'auto';
 }
