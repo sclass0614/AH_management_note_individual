@@ -387,7 +387,7 @@ async function deleteData() {
     
     // 삭제 확인
     const confirmDelete = await customConfirm(
-        `${employeeName}님의 ${formatDateForDisplay(currentDate)} 업무내용을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`,
+        `${employeeName}님의 ${currentDate.substring(0, 4)}년 ${currentDate.substring(4, 6)}월 ${currentDate.substring(6, 8)}일 업무내용을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`,
         '삭제 확인'
     );
     
@@ -464,6 +464,8 @@ function formatDate(dateString) {
         day: '2-digit'
     });
 }
+
+
 
 // 유틸리티 함수: 현재 시간 가져오기
 function getCurrentTime() {
