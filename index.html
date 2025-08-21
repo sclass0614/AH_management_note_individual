@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>직원운영일지</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Supabase JS 라이브러리 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <!-- 스크립트 파일 -->
+    <script src="supabase.js"></script>
+    
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- 헤더 부분 -->
+      <div class="header" id="headerSection">
+        <div class="title" id="pageTitle">
+          우리집 운영일지(개인업무)
+        </div>
+      </div>
+
+      <!-- 메인 콘텐츠 영역 -->
+      <div class="content-area">
+        <!-- 편집 패널 -->
+        <div class="edit-panel">
+          <div class="edit-header">
+            <div class="date-section">
+              <label for="datePicker">날짜:</label>
+              <input type="date" id="datePicker" class="date-input">
+            </div>
+          </div>
+
+          <!-- 탭 네비게이션 -->
+          <div class="tab-navigation">
+            <button class="tab-btn active" id="inputTab">업무 입력</button>
+            <button class="tab-btn" id="historyTab">과거 확인</button>
+          </div>
+
+          <!-- 업무 입력 탭 -->
+          <div class="tab-content active" id="inputTabContent">
+            <div class="edit-form">
+              <div class="form-group">
+                <label for="employeeNumber">직원번호:</label>
+                <input type="text" id="employeeNumber" class="form-input" placeholder="직원번호를 입력하세요" readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="employeeName">직원명:</label>
+                <input type="text" id="employeeName" class="form-input" placeholder="직원명을 입력하세요" readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="contentTextarea">업무내용:</label>
+                <textarea id="contentTextarea" class="form-textarea" placeholder="업무내용을 입력하세요"></textarea>
+              </div>
+
+              <button class="submit-btn" id="submitBtn">입력</button>
+            </div>
+          </div>
+
+          <!-- 과거 확인 탭 -->
+          <div class="tab-content" id="historyTabContent">
+            <div class="history-form">
+              <div class="form-group">
+                <label for="historyDatePicker">확인할 날짜:</label>
+                <input type="date" id="historyDatePicker" class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label for="historyContentTextarea">업무내용:</label>
+                <textarea id="historyContentTextarea" class="form-textarea" placeholder="해당 날짜의 업무내용이 여기에 표시됩니다." readonly></textarea>
+              </div>
+
+              <button class="copy-btn" id="copyBtn">내용 복사</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
