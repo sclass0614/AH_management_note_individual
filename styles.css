@@ -282,6 +282,13 @@ body {
     background-color: #f8f9fa;
 }
 
+/* 버튼 그룹 스타일 */
+.button-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
 .submit-btn {
     background-color: var(--main-color);
     color: white;
@@ -292,11 +299,28 @@ body {
     font-weight: bold;
     font-size: 16px;
     transition: background-color 0.3s;
-    margin-top: 1rem;
+    flex: 1;
 }
 
 .submit-btn:hover {
     background-color: var(--accent-color);
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    flex: 1;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
 }
 
 .copy-btn {

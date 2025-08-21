@@ -12,6 +12,7 @@ const employeeNumberInput = document.getElementById('employeeNumber');
 const employeeNameInput = document.getElementById('employeeName');
 const contentTextarea = document.getElementById('contentTextarea');
 const submitBtn = document.getElementById('submitBtn');
+const deleteBtn = document.getElementById('deleteBtn');
 
 // 탭 요소들
 const inputTab = document.getElementById('inputTab');
@@ -63,6 +64,9 @@ function setupEventListeners() {
     
     // 입력 버튼
     submitBtn.addEventListener('click', submitData);
+    
+    // 삭제 버튼
+    deleteBtn.addEventListener('click', deleteData);
     
     // 탭 버튼 이벤트
     inputTab.addEventListener('click', function() {
@@ -367,6 +371,67 @@ async function forceUpdate() {
     } catch (error) {
         console.error('강제 업데이트 중 예외 발생:', error);
         await customAlert('데이터 업데이트 중 오류가 발생했습니다.', '오류');
+    }
+}
+
+// 데이터 삭제 처리
+async function deleteData() {
+    // 입력값 검증
+    const employeeNumber = employeeNumberInput.value.trim();
+    const employeeName = employeeNameInput.value.trim();
+    
+    if (!employeeNumber || !employeeName) {
+        await customAlert('직원번호와 직원명을 확인해주세요.', '입력 확인');
+        return;
+    }
+    
+    // 삭제 확인
+    const confirmDelete = await customConfirm(
+        `${employeeName}님의 ${formatDateForDisplay(currentDate)} 업무내용을 삭제하시겠습니까?\n\n이 작업은 되돌릴 수 없습니다.`,
+        '삭제 확인'
+    );
+    
+    if (!confirmDelete) {
+        return;
+    }
+    
+    try {
+        console.log('데이터 삭제 시작...');
+        console.log('삭제할 직원번호:', employeeNumber);
+        console.log('삭제할 날짜:', currentDate);
+        
+        // 해당 날짜와 직원번호로 데이터 삭제
+        const { data, error } = await supabase
+            .from('management_note_individual')
+            .delete()
+            .eq('직원번호', employeeNumber)
+            .eq('날짜', currentDate);
+        
+        if (error) {
+            console.error('데이터 삭제 에러:', error);
+            await customAlert('데이터 삭제 중 오류가 발생했습니다.', '오류');
+            return;
+        }
+        
+        console.log('데이터 삭제 성공:', data);
+        
+        // 삭제 후 업무내용 필드만 초기화 (직원번호, 직원명은 유지)
+        contentTextarea.value = '';
+        contentTextarea.dataset.existingId = '';
+        originalData = null;
+        originalWorkContent = '';
+        
+        // textarea 높이 초기화
+        adjustTextareaHeight();
+        
+        // 개인업무 데이터 다시 로드
+        await loadIndividualWorkData();
+        
+        await customAlert('업무내용이 성공적으로 삭제되었습니다.', '삭제 완료');
+        
+    } catch (error) {
+        console.error('데이터 삭제 중 예외 발생:', error);
+        await customAlert('데이터 삭제 중 오류가 발생했습니다.', '오류');
     }
 }
 
